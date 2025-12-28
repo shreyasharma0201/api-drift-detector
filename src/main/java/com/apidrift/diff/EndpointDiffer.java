@@ -1,8 +1,8 @@
-// diff/EndpointDiffer.java
 package com.apidrift.diff;
 
 import com.apidrift.model.Drift;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
 
 import java.util.*;
 
@@ -11,23 +11,43 @@ public class EndpointDiffer {
     public static List<Drift> diff(OpenAPI oldApi, OpenAPI newApi) {
         List<Drift> result = new ArrayList<>();
 
-        Set<String> oldPaths = oldApi.getPaths().keySet();
-        Set<String> newPaths = newApi.getPaths().keySet();
-        System.out.println(oldPaths);
-        System.out.println(newPaths);
+        Set<String> oldEndpoints = extract(oldApi);
+        Set<String> newEndpoints = extract(newApi);
 
-        for (String p : oldPaths) {
-            if (!newPaths.contains(p)) {
-                result.add(new Drift("REMOVED", p));
+        for (String e : oldEndpoints) {
+            if (!newEndpoints.contains(e)) {
+                String[] parts = e.split(" ", 2);
+                result.add(new Drift("METHOD_REMOVED", parts[0], parts[1]));
             }
         }
 
-        for (String p : newPaths) {
-            if (!oldPaths.contains(p)) {
-                result.add(new Drift("ADDED", p));
+        for (String e : newEndpoints) {
+            if (!oldEndpoints.contains(e)) {
+                String[] parts = e.split(" ", 2);
+                result.add(new Drift("METHOD_ADDED", parts[0], parts[1]));
             }
         }
 
         return result;
+    }
+
+    private static Set<String> extract(OpenAPI api) {
+        Set<String> endpoints = new HashSet<>();
+
+        api.getPaths().forEach((path, item) -> {
+            add(endpoints, "GET", item.getGet(), path);
+            add(endpoints, "POST", item.getPost(), path);
+            add(endpoints, "PUT", item.getPut(), path);
+            add(endpoints, "DELETE", item.getDelete(), path);
+            add(endpoints, "PATCH", item.getPatch(), path);
+        });
+
+        return endpoints;
+    }
+
+    private static void add(Set<String> set, String method, Object op, String path) {
+        if (op != null) {
+            set.add(method + " " + path);
+        }
     }
 }
