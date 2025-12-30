@@ -2,24 +2,20 @@ openapi: 3.0.1
 info:
   title: User API
   version: 1.0.0
-
 paths:
   /users:
     post:
-      summary: Create user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                email:
-                  type: string
-                age:
-                  type: integer
       responses:
         "201":
           description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  age:
+                    type: integer

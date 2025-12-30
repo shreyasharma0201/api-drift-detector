@@ -8,7 +8,7 @@ public class OpenApiLoader {
     public static OpenAPI load(String path) {
 
         System.out.println("Loading OpenAPI from " + path);
-//        System.out.println(new OpenAPIV3Parser().read(path));
+        System.out.println(new OpenAPIV3Parser().read(path));
         return new OpenAPIV3Parser().read(path);
     }
 }

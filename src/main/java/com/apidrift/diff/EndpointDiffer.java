@@ -2,7 +2,6 @@ package com.apidrift.diff;
 
 import com.apidrift.model.Drift;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.PathItem;
 
 import java.util.*;
 
