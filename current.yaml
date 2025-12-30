@@ -5,15 +5,19 @@ info:
 
 paths:
   /users:
-    get:
-      summary: Get all users
-      responses:
-        "200":
-          description: OK
-
-  /orders:
     post:
-      summary: Create order
+      summary: Create user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer   # TYPE CHANGED
+                email:
+                  type: string    # age REMOVED
       responses:
         "201":
           description: Created
