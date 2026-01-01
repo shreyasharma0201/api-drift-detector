@@ -19,7 +19,7 @@ public class EndpointDiffer {
                 String[] parts = e.split(" ", 2);
                 result.add(new Drift("METHOD_REMOVED", parts[0], parts[1], "Endpoint is no longer present in the new spec"));
             }
-        } // End of first loop
+        }
 
         // 2. Check for ADDITIONS
         for (String e : newEndpoints) {
@@ -27,7 +27,7 @@ public class EndpointDiffer {
                 String[] parts = e.split(" ", 2);
                 result.add(new Drift("METHOD_ADDED", parts[0], parts[1], "New endpoint detected in the updated spec"));
             }
-        } // End of second loop
+        }
 
         return result;
     }

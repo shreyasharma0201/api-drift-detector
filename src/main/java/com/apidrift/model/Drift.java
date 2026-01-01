@@ -18,3 +18,4 @@ public class Drift {
         return type + "  " + method + " " + path + " -> " + detail;
     }
 }
+
