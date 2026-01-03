@@ -2,6 +2,8 @@ package com.apidrift.diff;
 
 import com.apidrift.model.Drift;
 import io.swagger.v3.oas.models.OpenAPI;
+import com.apidrift.model.Severity;
+import com.apidrift.diff.SeverityResolver;
 
 import java.util.*;
 
@@ -17,7 +19,13 @@ public class EndpointDiffer {
         for (String e : oldEndpoints) {
             if (!newEndpoints.contains(e)) {
                 String[] parts = e.split(" ", 2);
-//                result.add(new Drift("METHOD_REMOVED", parts[0], parts[1], "Endpoint is no longer present in the new spec"));
+                result.add(new Drift(
+                        "METHOD_REMOVED",
+                        SeverityResolver.resolve("METHOD_REMOVED"),
+                        parts[0],
+                        parts[1],
+                        "Endpoint is no longer present in the new spec"
+                ));
             }
         }
 
@@ -25,7 +33,13 @@ public class EndpointDiffer {
         for (String e : newEndpoints) {
             if (!oldEndpoints.contains(e)) {
                 String[] parts = e.split(" ", 2);
-//                result.add(new Drift("METHOD_ADDED", parts[0], parts[1], "New endpoint detected in the updated spec"));
+                result.add(new Drift(
+                        "METHOD_REMOVED",
+                        SeverityResolver.resolve("METHOD_REMOVED"),
+                        parts[0],
+                        parts[1],
+                        "New endpoint detected in the updated spec\n"
+                ));
             }
         }
 

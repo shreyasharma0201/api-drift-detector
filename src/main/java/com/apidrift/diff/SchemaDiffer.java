@@ -6,6 +6,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Operation;
+import com.apidrift.model.Severity;
+import com.apidrift.diff.SeverityResolver;
 
 import java.util.*;
 
@@ -46,6 +48,7 @@ public class SchemaDiffer {
             if (!newProps.containsKey(field)) {
                 drifts.add(new Drift(
                         "FIELD_REMOVED",
+                        SeverityResolver.resolve("FIELD_REMOVED"),
                         method,
                         path,
                         "request.body." + field
@@ -56,10 +59,12 @@ public class SchemaDiffer {
                 if (!Objects.equals(oldType, newType)) {
                     drifts.add(new Drift(
                             "FIELD_TYPE_CHANGED",
+                            SeverityResolver.resolve("FIELD_TYPE_CHANGED"),
                             method,
                             path,
                             field + ": " + oldType + " -> " + newType
                     ));
+
                 }
             }
         }

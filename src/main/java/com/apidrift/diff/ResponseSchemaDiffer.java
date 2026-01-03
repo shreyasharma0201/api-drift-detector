@@ -44,6 +44,7 @@ public class ResponseSchemaDiffer {
             if (!newResp.containsKey(status)) {
                 drifts.add(new Drift(
                         "RESPONSE_STATUS_REMOVED",
+                        SeverityResolver.resolve("RESPONSE_STATUS_REMOVED"),
                         method,
                         path,
                         "status " + status
@@ -66,20 +67,22 @@ public class ResponseSchemaDiffer {
             for (String field : oldProps.keySet()) {
                 if (!newProps.containsKey(field)) {
                     drifts.add(new Drift(
-                            "RESPONSE_FIELD_REMOVED",
+                            "RESPONSE_STATUS_REMOVED",
+                            SeverityResolver.resolve("RESPONSE_STATUS_REMOVED"),
                             method,
                             path,
-                            status + ".body." + field
+                            "status " + status
                     ));
                 } else {
                     String o = oldProps.get(field).getType();
                     String n = newProps.get(field).getType();
                     if (!Objects.equals(o, n)) {
                         drifts.add(new Drift(
-                                "RESPONSE_FIELD_TYPE_CHANGED",
+                                "RESPONSE_STATUS_REMOVED",
+                                SeverityResolver.resolve("RESPONSE_STATUS_REMOVED"),
                                 method,
                                 path,
-                                status + "." + field + ": " + o + " -> " + n
+                                "status " + status
                         ));
                     }
                 }
